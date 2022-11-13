@@ -1,7 +1,7 @@
-import { EditorView, basicSetup } from "codemirror";
-import { markdown } from "@codemirror/lang-markdown";
+import { createApp } from "vue";
+import App from "./app.vue";
 
-let view = new EditorView({
-  extensions: [basicSetup, markdown()],
-  parent: document.body,
-});
+export function initApp(elementId) {
+  const app = createApp(App);
+  app.mount(elementId);
+}
