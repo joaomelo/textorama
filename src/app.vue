@@ -8,6 +8,12 @@ import { open, save, saveAs } from "./file";
 const fileHandle = ref(null);
 const content = ref(null);
 
+const handleNew = async () => {
+  const newContent = null;
+  fileHandle.value = await saveAs(newContent);
+  content.value = newContent;
+};
+
 const handleOpen = async () => {
   const payload = await open();
   fileHandle.value = payload.handle;
@@ -26,6 +32,7 @@ const handleSaveAs = async () => {
   <div class="app">
     <PlainBar
       :save-disabled="!fileHandle"
+      @new="handleNew"
       @open="handleOpen"
       @save="handleSave"
       @save-as="handleSaveAs"
@@ -35,7 +42,7 @@ const handleSaveAs = async () => {
   </div>
 </template>
 
-<style>
+<style scoped>
 .app {
   height: 100%;
   display: grid;

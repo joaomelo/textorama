@@ -42,5 +42,7 @@ watch(
 );
 </script>
 <template>
-  <div ref="parent"></div>
+  <va-card outlined>
+    <div ref="parent"></div>
+  </va-card>
 </template>

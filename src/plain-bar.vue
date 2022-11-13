@@ -10,15 +10,37 @@ const emit = defineEmits(["open", "save", "save-as"]);
 
 <template>
   <div class="bar">
-    <button @click="emit('open')">Open</button>
-    <button :disabled="props.saveDisabled" @click="emit('save')">Save</button>
-    <button @click="emit('save-as')">Save As</button>
+    <h1 class="va-h3">Plain</h1>
+    <div class="buttons">
+      <va-button icon="note_add" gradient @click="emit('new')">New</va-button>
+      <va-button icon="file_open" gradient @click="emit('open')">
+        Open
+      </va-button>
+      <va-button
+        icon="save"
+        gradient
+        :disabled="props.saveDisabled"
+        @click="emit('save')"
+      >
+        Save
+      </va-button>
+      <va-button icon="save_as" gradient @click="emit('save-as')">
+        Save As
+      </va-button>
+    </div>
   </div>
 </template>
 
-<style>
+<style scoped>
 .bar {
+  padding: 8px;
   display: flex;
-  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.buttons {
+  display: flex;
+  gap: 4px;
 }
 </style>
