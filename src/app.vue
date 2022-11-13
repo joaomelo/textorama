@@ -1,23 +1,37 @@
 <script setup>
-import { ref, onMounted } from "vue";
-import { EditorView, basicSetup } from "codemirror";
-import { markdown } from "@codemirror/lang-markdown";
+import { ref } from "vue";
+import PlainBar from "./plain-bar.vue";
+import PlainEditor from "./plain-editor.vue";
+import PlainStatus from "./plain-status.vue";
+import { open, save, saveAs } from "./file";
 
-const editor = ref(null);
+const fileHandle = ref(null);
+const content = ref(null);
 
-onMounted(() => {
-  const view = new EditorView({
-    extensions: [basicSetup, markdown()],
-    parent: editor.value,
-  });
-  console.log({ view });
-});
+const handleOpen = async () => {
+  const payload = await open();
+  fileHandle.value = payload.handle;
+  content.value = payload.content;
+};
+
+const handleSave = async () => {
+  await save({ handle: fileHandle.value, content: content.value });
+};
+
+const handleSaveAs = async () => {
+  fileHandle.value = await saveAs(content.value);
+};
 </script>
 <template>
   <div class="app">
-    <div>toolbar</div>
-    <div ref="editor"></div>
-    <div>statusbar</div>
+    <PlainBar
+      :save-disabled="!fileHandle"
+      @open="handleOpen"
+      @save="handleSave"
+      @save-as="handleSaveAs"
+    />
+    <PlainEditor v-model:content="content" />
+    <PlainStatus :file-name="fileHandle?.name" />
   </div>
 </template>
 

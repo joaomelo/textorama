@@ -9,6 +9,10 @@ module.exports = {
     sourceType: "module",
   },
   plugins: ["vue"],
+  globals: {
+    showOpenFilePicker: "readonly",
+    showSaveFilePicker: "readonly",
+  },
   rules: {
     semi: ["error", "always"],
     "no-console": [
