@@ -2,13 +2,14 @@
 defineProps({ fileName: { type: String, default: null } });
 </script>
 <template>
-  <va-app-bar bottom class="bar">
+  <div bottom class="status">
     <p class="#fff">{{ fileName || "no file" }}</p>
-  </va-app-bar>
+  </div>
 </template>
 
 <style scoped>
-.bar {
+.status {
   color: var(--va-text-inverted);
+  background-color: var(--va-primary);
 }
 </style>
