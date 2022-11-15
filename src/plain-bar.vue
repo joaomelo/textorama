@@ -1,30 +1,25 @@
 <script setup>
-const props = defineProps({
-  saveDisabled: {
-    type: Boolean,
-    default: false,
-  },
-});
-const emit = defineEmits(["open", "save", "save-as"]);
+import { inject } from "vue";
+const plain = inject("plain");
 </script>
 
 <template>
   <div class="bar">
     <h1 class="va-h3">Plain</h1>
     <div class="buttons">
-      <va-button icon="note_add" gradient @click="emit('new')">New</va-button>
-      <va-button icon="file_open" gradient @click="emit('open')">
+      <va-button icon="note_add" gradient @click="plain.new">New</va-button>
+      <va-button icon="file_open" gradient @click="plain.open">
         Open
       </va-button>
       <va-button
         icon="save"
         gradient
-        :disabled="props.saveDisabled"
-        @click="emit('save')"
+        :disabled="!plain.link"
+        @click="plain.save"
       >
         Save
       </va-button>
-      <va-button icon="save_as" gradient @click="emit('save-as')">
+      <va-button icon="save_as" gradient @click="plain.saveAs">
         Save As
       </va-button>
     </div>

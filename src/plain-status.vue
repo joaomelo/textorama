@@ -1,9 +1,11 @@
 <script setup>
-defineProps({ fileName: { type: String, default: null } });
+import { inject } from "vue";
+const plain = inject("plain");
 </script>
 <template>
-  <div bottom class="status">
-    <p class="#fff">{{ fileName || "no file" }}</p>
+  <div class="status">
+    <p>{{ plain.fileName || "no file" }}</p>
+    <p>{{ plain.status }}</p>
   </div>
 </template>
 
@@ -11,5 +13,7 @@ defineProps({ fileName: { type: String, default: null } });
 .status {
   color: var(--va-text-inverted);
   background-color: var(--va-primary);
+  display: flex;
+  justify-content: space-between;
 }
 </style>
