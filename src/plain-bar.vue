@@ -28,10 +28,11 @@ const plain = inject("plain");
 
 <style scoped>
 .bar {
-  padding: 8px;
+  padding-inline: 8px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-bottom: var(--va-primary) solid 2px;
 }
 
 .buttons {
