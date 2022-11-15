@@ -30,22 +30,60 @@ const handleSaveAs = async () => {
 </script>
 <template>
   <div class="app">
-    <PlainBar
-      :save-disabled="!fileHandle"
-      @new="handleNew"
-      @open="handleOpen"
-      @save="handleSave"
-      @save-as="handleSaveAs"
-    />
-    <PlainEditor v-model:content="content" />
-    <PlainStatus :file-name="fileHandle?.name" />
+    <header>
+      <PlainBar
+        :save-disabled="!fileHandle"
+        @new="handleNew"
+        @open="handleOpen"
+        @save="handleSave"
+        @save-as="handleSaveAs"
+      />
+    </header>
+    <main>
+      <PlainEditor v-model:content="content" />
+    </main>
+    <footer>
+      <PlainStatus :file-name="fileHandle?.name" />
+    </footer>
   </div>
 </template>
 
 <style scoped>
 .app {
-  height: 100%;
-  display: grid;
-  grid-template-rows: min-content 1fr min-content;
+  height: 100vh;
+  --header-size: 64px;
+  --footer-size: 16px;
+}
+
+header,
+footer {
+  overflow: hidden;
+}
+
+main {
+  overflow-y: scroll;
+}
+
+header,
+main,
+footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+header {
+  top: 0;
+  height: var(--header-size);
+}
+
+main {
+  top: var(--header-size);
+  bottom: var(--footer-size);
+}
+
+footer {
+  bottom: 0px;
+  height: var(--footer-size);
 }
 </style>

@@ -13,6 +13,7 @@ onMounted(() => {
   editorView = new EditorView({
     extensions: [
       basicSetup,
+      EditorView.lineWrapping,
       markdown(),
       EditorView.updateListener.of((v) => {
         if (v.docChanged) {
