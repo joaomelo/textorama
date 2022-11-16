@@ -7,19 +7,21 @@ const plain = inject("plain");
   <div class="bar">
     <h1 class="va-h3">Plain</h1>
     <div class="buttons">
-      <va-button icon="note_add" gradient @click="plain.new">New</va-button>
-      <va-button icon="file_open" gradient @click="plain.open">
+      <va-button icon="note_add" gradient @click="() => plain.new()"
+        >New</va-button
+      >
+      <va-button icon="file_open" gradient @click="() => plain.open()">
         Open
       </va-button>
       <va-button
         icon="save"
         gradient
-        :disabled="!plain.link"
-        @click="plain.save"
+        :disabled="!plain.canSave.value"
+        @click="() => plain.save()"
       >
         Save
       </va-button>
-      <va-button icon="save_as" gradient @click="plain.saveAs">
+      <va-button icon="save_as" gradient @click="() => plain.saveAs()">
         Save As
       </va-button>
     </div>
