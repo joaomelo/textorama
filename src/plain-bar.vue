@@ -1,27 +1,27 @@
 <script setup>
 import { inject } from "vue";
-const plain = inject("plain");
+const textRecord = inject("text-record");
 </script>
 
 <template>
   <div class="bar">
     <h1 class="va-h3">Plain</h1>
     <div class="buttons">
-      <va-button icon="note_add" gradient @click="() => plain.new()"
+      <va-button icon="note_add" gradient @click="() => textRecord.new()"
         >New</va-button
       >
-      <va-button icon="file_open" gradient @click="() => plain.open()">
+      <va-button icon="file_open" gradient @click="() => textRecord.open()">
         Open
       </va-button>
       <va-button
         icon="save"
         gradient
-        :disabled="!plain.canSave.value"
-        @click="() => plain.save()"
+        :disabled="!textRecord.canSave.value"
+        @click="() => textRecord.save()"
       >
         Save
       </va-button>
-      <va-button icon="save_as" gradient @click="() => plain.saveAs()">
+      <va-button icon="save_as" gradient @click="() => textRecord.saveAs()">
         Save As
       </va-button>
     </div>

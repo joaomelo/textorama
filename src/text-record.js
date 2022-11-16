@@ -1,15 +1,6 @@
 import { ref, computed, watch } from "vue";
 
 export class TextRecord {
-  static options = {
-    types: [
-      {
-        description: "Text files",
-        accept: { "text/plain": [".txt", ".md"] },
-      },
-    ],
-  };
-
   constructor(initialContent = null) {
     this.content = ref(initialContent);
     this.status = ref("dirty");
@@ -28,6 +19,15 @@ export class TextRecord {
       return this.status.value === "dirty";
     });
   }
+
+  static options = {
+    types: [
+      {
+        description: "Text files",
+        accept: { "text/plain": [".txt", ".md"] },
+      },
+    ],
+  };
 
   async open() {
     const [handle] = await showOpenFilePicker(this.options);

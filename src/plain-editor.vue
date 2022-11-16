@@ -4,11 +4,10 @@ import { EditorView, basicSetup } from "codemirror";
 import { EditorState } from "@codemirror/state";
 import { markdown } from "@codemirror/lang-markdown";
 
-const plain = inject("plain");
+const textRecord = inject("text-record");
 
 const parent = ref(null);
 let editorView = null;
-
 onMounted(() => {
   const initialState = EditorState.create({
     extensions: [
@@ -18,12 +17,12 @@ onMounted(() => {
       EditorView.updateListener.of((v) => {
         if (v.docChanged) {
           const newContent = editorView.state.doc.toString();
-          if (plain.content.value === newContent) return;
-          plain.content.value = newContent;
+          if (textRecord.content.value === newContent) return;
+          textRecord.content.value = newContent;
         }
       }),
     ],
-    doc: plain.content.value,
+    doc: textRecord.content.value,
   });
 
   editorView = new EditorView({
@@ -32,7 +31,7 @@ onMounted(() => {
   });
 });
 
-watch(plain.content, (newContent) => {
+watch(textRecord.content, (newContent) => {
   if (newContent === editorView.state.doc.toString()) return;
   const update = editorView.state.update({
     changes: {

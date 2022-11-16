@@ -1,11 +1,11 @@
 <script setup>
 import { inject } from "vue";
-const plain = inject("plain");
+const textRecord = inject("text-record");
 </script>
 <template>
   <div class="status">
-    <p>{{ plain.fileName.value || "no file" }}</p>
-    <p>{{ plain.status.value }}</p>
+    <p>{{ textRecord.fileName.value || "no file" }}</p>
+    <p>{{ textRecord.status.value }}</p>
   </div>
 </template>
 
