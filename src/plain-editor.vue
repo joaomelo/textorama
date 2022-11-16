@@ -16,9 +16,7 @@ onMounted(() => {
       markdown(),
       EditorView.updateListener.of((v) => {
         if (v.docChanged) {
-          const newContent = editorView.state.doc.toString();
-          if (textRecord.content.value === newContent) return;
-          textRecord.content.value = newContent;
+          textRecord.draft(editorView.state.doc.toString());
         }
       }),
     ],

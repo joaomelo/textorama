@@ -1,12 +1,9 @@
-import { ref, computed, watch } from "vue";
+import { ref, computed } from "vue";
 
 export class TextRecord {
-  constructor(initialContent = null) {
+  constructor(initialContent = "") {
     this.content = ref(initialContent);
     this.status = ref("dirty");
-    watch(this.content, () => {
-      this.status.value = "dirty";
-    });
 
     this.fileLink = ref(null);
     this.fileName = computed(() => {
@@ -15,8 +12,7 @@ export class TextRecord {
     });
 
     this.canSave = computed(() => {
-      if (!this.fileLink.value) return false;
-      return this.status.value === "dirty";
+      return !!this.fileLink.value;
     });
   }
 
@@ -40,7 +36,7 @@ export class TextRecord {
   }
 
   async new() {
-    this.content.value = null;
+    this.content.value = "";
     await this.saveAs();
   }
 
@@ -57,5 +53,15 @@ export class TextRecord {
     stream.close();
 
     this.status.value = "clean";
+  }
+
+  draft(newContent) {
+    const a = this.content.value.replaceAll(/\r\n/gm, "\n");
+    const b = newContent.replaceAll(/\r\n/gm, "\n");
+    const areEqual = a === b;
+    if (areEqual) return;
+
+    this.content.value = newContent;
+    this.status.value = "dirty";
   }
 }
