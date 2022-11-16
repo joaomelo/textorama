@@ -4,8 +4,8 @@ const plain = inject("plain");
 </script>
 <template>
   <div class="status">
-    <p>{{ plain.fileName || "no file" }}</p>
-    <p>{{ plain.status }}</p>
+    <p>{{ plain.fileName.value || "no file" }}</p>
+    <p>{{ plain.status.value }}</p>
   </div>
 </template>
 
@@ -15,5 +15,7 @@ const plain = inject("plain");
   background-color: var(--va-primary);
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  padding-inline: 8px;
 }
 </style>
