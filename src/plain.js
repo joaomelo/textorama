@@ -1,7 +1,6 @@
 import { ref, computed, watch } from "vue";
-import welcome from "../README.md?raw";
 
-export class Plain {
+export class TextRecord {
   static options = {
     types: [
       {
@@ -11,28 +10,28 @@ export class Plain {
     ],
   };
 
-  constructor() {
-    this.link = ref(null);
-    this.fileName = computed(() => {
-      if (!this.link.value) return null;
-      return this.link.value.name;
-    });
+  constructor(initialContent = null) {
+    this.content = ref(initialContent);
     this.status = ref("dirty");
-    this.content = ref(welcome);
     watch(this.content, () => {
       this.status.value = "dirty";
     });
-  }
 
-  async new() {
-    this.content.value = null;
-    await this.saveAs();
-    this.status.value = "clean";
+    this.fileLink = ref(null);
+    this.fileName = computed(() => {
+      if (!this.fileLink.value) return null;
+      return this.fileLink.value.name;
+    });
+
+    this.canSave = computed(() => {
+      if (!this.fileLink.value) return false;
+      return this.status.value === "dirty";
+    });
   }
 
   async open() {
     const [handle] = await showOpenFilePicker(this.options);
-    this.link.value = handle;
+    this.fileLink.value = handle;
 
     const file = await handle.getFile();
     this.content.value = await file.text();
@@ -40,18 +39,23 @@ export class Plain {
     this.status.value = "clean";
   }
 
-  async save() {
-    if (!this.link.value) return;
+  async new() {
+    this.content.value = null;
+    await this.saveAs();
+  }
 
-    const stream = await this.link.value.createWritable();
+  async saveAs() {
+    this.fileLink.value = await showSaveFilePicker(this.options);
+    await this.save();
+  }
+
+  async save() {
+    if (!this.canSave.value) return;
+
+    const stream = await this.fileLink.value.createWritable();
     stream.write(this.content.value);
     stream.close();
 
     this.status.value = "clean";
-  }
-
-  async saveAs() {
-    this.link.value = await showSaveFilePicker(this.options);
-    await this.save();
   }
 }
