@@ -10,10 +10,6 @@ export class TextRecord {
       if (!this.fileLink.value) return null;
       return this.fileLink.value.name;
     });
-
-    this.canSave = computed(() => {
-      return !!this.fileLink.value;
-    });
   }
 
   static options = {
@@ -46,7 +42,7 @@ export class TextRecord {
   }
 
   async save() {
-    if (!this.canSave.value) return;
+    if (!this.fileLink.value) return;
 
     const stream = await this.fileLink.value.createWritable();
     stream.write(this.content.value);

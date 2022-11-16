@@ -1,7 +1,14 @@
 <script setup>
+import { inject, watch } from "vue";
 import PlainBar from "./plain-bar.vue";
 import PlainEditor from "./plain-editor.vue";
 import PlainStatus from "./plain-status.vue";
+
+const textRecord = inject("text-record");
+const unload = () => "Are you sure want to leave before saving?";
+watch(textRecord.status, (status) => {
+  window.onbeforeunload = status === "clean" ? null : unload;
+});
 </script>
 <template>
   <div class="app">

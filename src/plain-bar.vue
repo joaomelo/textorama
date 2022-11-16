@@ -16,7 +16,9 @@ const textRecord = inject("text-record");
       <va-button
         icon="save"
         gradient
-        :disabled="!textRecord.canSave.value"
+        :disabled="
+          !textRecord.fileLink.value || textRecord.status.value === 'clean'
+        "
         @click="() => textRecord.save()"
       >
         Save
