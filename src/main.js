@@ -5,11 +5,13 @@ import { createVuestic } from "vuestic-ui";
 import "vuestic-ui/css";
 
 import welcome from "../README.md?raw";
+import pck from "../package.json";
 
 import App from "./app.vue";
 import { TextRecord } from "./text-record";
 
 export function initApp(elementId) {
+  console.info(pck.version);
   const firebaseConfig = {
     apiKey: import.meta.env.VITE_API_KEY,
     authDomain: import.meta.env.VITE_AUTH_DOMAIN,

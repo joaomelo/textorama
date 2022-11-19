@@ -1,0 +1,58 @@
+name: publish
+
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: main
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+          registry-url: https://registry.npmjs.org/
+      - run: npm i
+      - run: npm run qa
+
+  bump:
+    needs: [qa]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: "actions/checkout@v2"
+      - run: sed -n 3p ./package.json
+      - name: "version bump"
+        uses: "phips28/gh-action-bump-version@master"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          skip-tag: "true"
+      - run: sed -n 3p ./package.json
+
+  deploy:
+    needs: [bump]
+    runs-on: ubuntu-latest
+    env:
+      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      FIREBASE_PROJECT: ${{ secrets.FIREBASE_PROJECT }}
+      VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
+      VITE_AUTH_DOMAIN: ${{ secrets.VITE_AUTH_DOMAIN }}
+      VITE_PROJECT_ID: ${{ secrets.VITE_PROJECT_ID }}
+      VITE_STORAGE_BUCKET: ${{ secrets.VITE_STORAGE_BUCKET }}
+      VITE_MESSAGING_SENDER_ID: ${{ secrets.VITE_MESSAGING_SENDER_ID }}
+      VITE_APP_ID: ${{ secrets.VITE_APP_ID }}
+      VITE_MEASUREMENT_ID: ${{ secrets.VITE_MEASUREMENT_ID }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: main
+      - uses: "actions/setup-node@v2"
+        with:
+          node-version: "14"
+      - run: npm i
+      - run: npx firebase use --add $FIREBASE_PROJECT
+      - run: npm run deploy

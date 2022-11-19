@@ -1,15 +1,21 @@
 {
   "name": "plain",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.1.0",
+  "description": "plain is a modest text editor",
+  "main": "src/index.html",
   "scripts": {
     "start": "vite",
+    "qa": "eslint \"src/**/*.{js,vue}\"",
     "deploy": "vite build && firebase deploy"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "text editor"
+  ],
+  "author": "joão melo <j@melo.plus> (https://joao.melo.plus)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joaomelo/plain.git"
+  },
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.2.0",
     "eslint": "^8.27.0",
