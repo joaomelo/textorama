@@ -1,8 +1,10 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { createApp } from "vue";
-import { createVuestic } from "vuestic-ui";
-import "vuestic-ui/css";
+import { createVuesticEssential, VaButton } from "vuestic-ui";
+import "vuestic-ui/styles/essential.css";
+import "vuestic-ui/styles/typography.css";
+import "vuestic-ui/styles/reset.css";
 
 import welcome from "../README.md?raw";
 import pck from "../package.json";
@@ -29,6 +31,10 @@ export function initApp(elementId) {
   const textRecord = new TextRecord(welcome);
   app.provide("text-record", textRecord);
 
-  app.use(createVuestic());
+  app.use(
+    createVuesticEssential({
+      components: { VaButton },
+    })
+  );
   app.mount(elementId);
 }
