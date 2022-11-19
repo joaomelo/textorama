@@ -1,4 +1,5 @@
 import { ref, computed } from "vue";
+import { fileOpen } from "https://unpkg.com/browser-fs-access";
 
 export class TextRecord {
   constructor(initialContent = "") {
@@ -22,13 +23,26 @@ export class TextRecord {
   };
 
   async open() {
-    const [handle] = await showOpenFilePicker(this.options);
-    this.fileLink.value = handle;
+    const blob = await fileOpen({
+      mimeTypes: ["text/plain"],
+      extensions: [".txt", ".md"],
+      description: "Text files",
+    });
 
-    const file = await handle.getFile();
-    this.content.value = await file.text();
+    this.fileLink.value = blob.handle;
+    console.log({ blob });
+
+    // this.content.value = await file.text();
 
     this.status.value = "clean";
+
+    // const [handle] = await showOpenFilePicker(this.options);
+    // this.fileLink.value = handle;
+
+    // const file = await handle.getFile();
+    // this.content.value = await file.text();
+
+    // this.status.value = "clean";
   }
 
   async new() {
