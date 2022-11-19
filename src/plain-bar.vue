@@ -45,4 +45,8 @@ const isSaveButtonDisabled = computed(
   display: flex;
   gap: 4px;
 }
+
+h1 {
+  color: var(--va-primary);
+}
 </style>
