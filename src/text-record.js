@@ -1,8 +1,10 @@
 import { ref, computed } from "vue";
-import { fileOpen } from "https://unpkg.com/browser-fs-access";
+import { fileOpen, fileSave, supported } from "browser-fs-access";
 
 export class TextRecord {
   constructor(initialContent = "") {
+    this.supportsFiles = supported;
+
     this.content = ref(initialContent);
     this.status = ref("dirty");
 
@@ -13,54 +15,47 @@ export class TextRecord {
     });
   }
 
+  static mimeType = "text/plain";
   static options = {
-    types: [
-      {
-        description: "Text files",
-        accept: { "text/plain": [".txt", ".md"] },
-      },
-    ],
+    mimeTypes: [TextRecord.mimeType],
+    extensions: [".txt", ".md"],
+    description: "Text files",
+    fileName: "Untitled.txt",
   };
 
   async open() {
-    const blob = await fileOpen({
-      mimeTypes: ["text/plain"],
-      extensions: [".txt", ".md"],
-      description: "Text files",
-    });
+    const file = await fileOpen(TextRecord.options);
 
-    this.fileLink.value = blob.handle;
-    console.log({ blob });
-
-    // this.content.value = await file.text();
-
+    this.fileLink.value = file.handle;
+    this.content.value = await file.text();
     this.status.value = "clean";
-
-    // const [handle] = await showOpenFilePicker(this.options);
-    // this.fileLink.value = handle;
-
-    // const file = await handle.getFile();
-    // this.content.value = await file.text();
-
-    // this.status.value = "clean";
   }
 
   async new() {
     this.content.value = "";
-    await this.saveAs();
+    if (this.supportsFiles) {
+      await this.saveAs();
+    }
   }
 
   async saveAs() {
-    this.fileLink.value = await showSaveFilePicker(this.options);
-    await this.save();
+    const file = await fileSave(
+      new Blob([this.content.value], { type: TextRecord.mimeType }),
+      TextRecord.options
+    );
+
+    this.fileLink.value = file?.handle;
+    this.status.value = "clean";
   }
 
   async save() {
-    if (!this.fileLink.value) return;
+    if (!this.supportsFiles || !this.fileLink.value) return;
 
-    const stream = await this.fileLink.value.createWritable();
-    stream.write(this.content.value);
-    stream.close();
+    await fileSave(
+      new Blob([this.content.value], { type: "text/plain" }),
+      TextRecord.options,
+      this.fileLink.value
+    );
 
     this.status.value = "clean";
   }
