@@ -61,12 +61,20 @@ jobs:
       - run: npm i
       - run: npx firebase use --add $FIREBASE_PROJECT
       - run: npm run deploy
+      - uses: actions/upload-artifact@master
+        with:
+          name: dist
+          path: dist
 
   sentry:
     needs: [bump, deploy]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@master
+        with:
+          name: dist
+          path: dist
       - name: create sentry release
         uses: getsentry/action-release@v1
         env:
@@ -76,3 +84,4 @@ jobs:
         with:
           environment: production
           version: ${{ needs.bump.outputs.version }}
+          sourcemaps: dist
