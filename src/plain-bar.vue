@@ -8,7 +8,7 @@ const isSaveButtonDisabled = computed(
 
 <template>
   <div class="bar">
-    <h1 class="va-h3">plain</h1>
+    <h1 class="va-h3 title">plain</h1>
     <div class="buttons">
       <va-button icon="note_add" gradient @click="() => textRecord.new()">
         new
@@ -34,19 +34,31 @@ const isSaveButtonDisabled = computed(
 
 <style scoped>
 .bar {
-  padding-inline: 8px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   border-bottom: var(--va-primary) solid 2px;
+  padding: 4px;
+}
+
+.title {
+  color: var(--va-primary);
+  margin: 0;
+  display: none;
+}
+
+@media (min-width: 480px) {
+  .bar {
+    justify-content: space-between;
+  }
+
+  .title {
+    display: initial;
+  }
 }
 
 .buttons {
   display: flex;
   gap: 4px;
-}
-
-h1 {
-  color: var(--va-primary);
 }
 </style>
