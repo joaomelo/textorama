@@ -63,6 +63,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: get-npm-version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@main
       - name: create sentry release
         uses: getsentry/action-release@v1
         env:
@@ -71,3 +74,4 @@ jobs:
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
           environment: production
+          version: ${{ steps.package-version.outputs.current-version}}-${{ github.sha }}
