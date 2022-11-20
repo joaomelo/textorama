@@ -8,13 +8,13 @@ const isSaveButtonDisabled = computed(
 
 <template>
   <div class="bar">
-    <h1 class="va-h3">Plain</h1>
+    <h1 class="va-h3">plain</h1>
     <div class="buttons">
       <va-button icon="note_add" gradient @click="() => textRecord.new()">
-        New
+        new
       </va-button>
       <va-button icon="file_open" gradient @click="() => textRecord.open()">
-        Open
+        open
       </va-button>
       <va-button
         v-if="textRecord.supportsFiles"
@@ -23,10 +23,10 @@ const isSaveButtonDisabled = computed(
         :disabled="isSaveButtonDisabled"
         @click="() => textRecord.save()"
       >
-        Save
+        save
       </va-button>
       <va-button icon="save_as" gradient @click="() => textRecord.saveAs()">
-        {{ textRecord.supportsFiles ? "Save As" : "Download" }}
+        {{ textRecord.supportsFiles ? "save as" : "download" }}
       </va-button>
     </div>
   </div>
