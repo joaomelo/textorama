@@ -1,5 +1,9 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+
+import * as Sentry from "@sentry/vue";
+import { BrowserTracing } from "@sentry/tracing";
+
 import { createApp } from "vue";
 import { createVuesticEssential, VaButton } from "vuestic-ui";
 import "vuestic-ui/styles/essential.css";
@@ -7,13 +11,12 @@ import "vuestic-ui/styles/typography.css";
 import "vuestic-ui/styles/reset.css";
 
 import welcome from "../README.md?raw";
-import pck from "../package.json";
+import { version } from "../package.json";
 
 import App from "./app.vue";
 import { TextRecord } from "./text-record";
 
 export function initApp(elementId) {
-  console.info(pck.version);
   const firebaseConfig = {
     apiKey: import.meta.env.VITE_API_KEY,
     authDomain: import.meta.env.VITE_AUTH_DOMAIN,
@@ -28,13 +31,28 @@ export function initApp(elementId) {
 
   const app = createApp(App);
 
+  app.provide("version", version);
+  if (import.meta.env.PROD) {
+    Sentry.init({
+      release: version,
+      app,
+      dsn: import.meta.env.VITE_SENTRY_DSN,
+      integrations: [
+        new BrowserTracing({
+          tracePropagationTargets: ["localhost", "plain.melo.plus", /^\//],
+        }),
+      ],
+      tracesSampleRate: import.meta.env.PROD ? 0.25 : 1.0,
+    });
+  }
+
   const textRecord = new TextRecord(welcome);
   app.provide("text-record", textRecord);
 
-  app.use(
-    createVuesticEssential({
-      components: { VaButton },
-    })
-  );
+  const vuestic = createVuesticEssential({
+    components: { VaButton },
+  });
+  app.use(vuestic);
+
   app.mount(elementId);
 }
