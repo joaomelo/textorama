@@ -35,8 +35,9 @@ export function initApp(elementId) {
     getAnalytics(firebase);
 
     Sentry.init({
-      release: version,
       app,
+      release: version,
+      environment: import.meta.env.MODE,
       dsn: import.meta.env.VITE_SENTRY_DSN,
       integrations: [
         new BrowserTracing({
