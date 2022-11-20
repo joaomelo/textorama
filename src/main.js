@@ -42,7 +42,7 @@ export function initApp(elementId) {
           tracePropagationTargets: ["localhost", "plain.melo.plus", /^\//],
         }),
       ],
-      tracesSampleRate: import.meta.env.PROD ? 0.25 : 1.0,
+      tracesSampleRate: 0.2,
     });
   }
 

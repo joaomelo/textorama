@@ -74,4 +74,4 @@ jobs:
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
           environment: production
-          version: ${{ steps.package-version.outputs.current-version}}-${{ github.sha }}
+          version: ${{ steps.package-version.outputs.current-version}}
