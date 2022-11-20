@@ -22,16 +22,20 @@ jobs:
   bump:
     needs: [qa]
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.package-version.outputs.current-version}}
     steps:
       - uses: "actions/checkout@v2"
-      - run: sed -n 3p ./package.json
       - name: "version bump"
         uses: "phips28/gh-action-bump-version@master"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           skip-tag: "true"
-      - run: sed -n 3p ./package.json
+      - name: get-npm-version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@main
+      - run: echo ${{ steps.package-version.outputs.current-version}}
 
   deploy:
     needs: [bump]
@@ -59,13 +63,10 @@ jobs:
       - run: npm run deploy
 
   sentry:
-    needs: [deploy]
+    needs: [bump, deploy]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: get-npm-version
-        id: package-version
-        uses: martinbeentjes/npm-get-version-action@main
       - name: create sentry release
         uses: getsentry/action-release@v1
         env:
@@ -74,4 +75,4 @@ jobs:
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
           environment: production
-          version: ${{ steps.package-version.outputs.current-version}}
+          version: ${{ needs.bump.outputs.version }}
