@@ -20,9 +20,11 @@ watch(textRecord.status, (status) => {
 
 <style scoped>
 .app {
+  position: relative;
   height: 100vh;
   --header-size: 64px;
   --footer-size: 16px;
+  --max-width: 1024px;
 }
 
 header,
