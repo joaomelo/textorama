@@ -1,6 +1,6 @@
 {
   "name": "plain",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "description": "plain is a modest text editor",
   "main": "src/index.html",
   "scripts": {
