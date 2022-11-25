@@ -48,6 +48,7 @@ watch(textRecord.content, (newContent) => {
 .parent {
   max-width: var(--max-width);
   max-height: 100%;
+  min-height: 100%;
   display: flex;
   justify-content: center;
   align-items: stretch;
