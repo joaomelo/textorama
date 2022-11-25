@@ -28,20 +28,12 @@ watch(textRecord.status, (status) => {
 }
 
 header,
-footer {
-  overflow: hidden;
-}
-
-main {
-  overflow-y: scroll;
-}
-
-header,
 main,
 footer {
   position: absolute;
   left: 0;
   right: 0;
+  overflow: hidden;
 }
 
 header {

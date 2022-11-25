@@ -4,7 +4,7 @@ The content is in your disk in a universal open format, and the browser ensures 
 
 The primary operations are in the top bar buttons. You can start authoring by clicking **new** or **open**.
 
-Suppose you are on a computer using Chrome, Edge, and Opera. In that case, you will have an experience similar to desktop apps with the ability to continuously save to the same file.
+Suppose you are on a computer using Chrome, Edge, and Opera. In that case, you will have an experience similar to desktop apps with the ability to save to the same file continuously.
 
 If you are on a mobile device or using either Firefox or Safari, you can still save locally, but every operation translates to downloading a new text file.
 

@@ -42,5 +42,18 @@ watch(textRecord.content, (newContent) => {
 });
 </script>
 <template>
-  <div ref="parent"></div>
+  <div ref="parent" class="parent"></div>
 </template>
+<style scoped>
+.parent {
+  max-width: var(--max-width);
+  max-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  margin: auto;
+}
+.parent :deep(.cm-editor) {
+  flex-grow: 1;
+}
+</style>
