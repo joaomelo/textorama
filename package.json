@@ -5,9 +5,11 @@
   "main": "src/index.html",
   "scripts": {
     "start": "vite",
-    "qa": "eslint \"src/**/*.{js,vue}\"",
-    "deploy": "vite build && firebase deploy",
-    "test": "cypress open"
+    "test": "cypress open",
+    "lint": "eslint \"src/**/*.{js,vue}\"",
+    "test:cli": "wait-on -c wait-on.config.json http-get://127.0.0.1:5173/ && cypress run",
+    "test:ci": "concurrently -s first -k \"vite\" \"npm run test:cli\"",
+    "deploy": "vite build && firebase deploy"
   },
   "keywords": [
     "text editor"
@@ -19,6 +21,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.2.0",
+    "concurrently": "^7.6.0",
     "cypress": "^11.2.0",
     "eslint": "^8.27.0",
     "eslint-config-prettier": "^8.5.0",
@@ -29,7 +32,8 @@
     "eslint-plugin-vue": "^9.7.0",
     "firebase-tools": "^11.16.1",
     "vite": "^3.2.3",
-    "vite-plugin-markdown": "^2.1.0"
+    "vite-plugin-markdown": "^2.1.0",
+    "wait-on": "^6.0.1"
   },
   "dependencies": {
     "@codemirror/commands": "^6.1.2",
