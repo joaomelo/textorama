@@ -48,6 +48,14 @@ export function initApp(elementId) {
     });
   }
 
+  if ("launchQueue" in window && "files" in LaunchParams.prototype) {
+    launchQueue.setConsumer((launchParams) => {
+      if (!launchParams.files.length) return;
+      const file = launchParams.files[0];
+      console.log(file);
+    });
+  }
+
   const textRecord = new TextRecord(welcome);
   app.provide("text-record", textRecord);
 

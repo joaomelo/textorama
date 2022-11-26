@@ -18,6 +18,8 @@ module.exports = {
   globals: {
     showOpenFilePicker: "readonly",
     showSaveFilePicker: "readonly",
+    LaunchParams: "readonly",
+    launchQueue: "readonly",
   },
   rules: {
     semi: ["error", "always"],

@@ -14,7 +14,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon-apple.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="manifest" href="/app.webmanifest" />
     <title>plain</title>
   </head>
   <body>
@@ -24,6 +24,11 @@
     <script type="module">
       import { initApp } from "./main.js";
       initApp("#container");
+    </script>
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("worker.js");
+      }
     </script>
   </body>
 </html>
