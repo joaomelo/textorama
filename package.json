@@ -7,7 +7,7 @@
     "start": "vite",
     "test": "cypress open",
     "lint": "eslint \"src/**/*.{js,vue}\"",
-    "test:cli": "wait-on -c wait-on.config.json http-get://127.0.0.1:5173/ && cypress run",
+    "test:cli": "wait-on -c wait-on.config.json http-get://127.0.0.1:5173/ && cypress run --record",
     "test:ci": "concurrently -s first -k \"vite\" \"npm run test:cli\"",
     "deploy": "vite build && firebase deploy"
   },
