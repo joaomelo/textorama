@@ -39,12 +39,10 @@ export class TextRecord {
   }
 
   async saveAs() {
-    const file = await fileSave(
+    this.fileLink.value = await fileSave(
       new Blob([this.content.value], { type: TextRecord.mimeType }),
       TextRecord.options
     );
-
-    this.fileLink.value = file?.handle;
     this.status.value = "clean";
   }
 
