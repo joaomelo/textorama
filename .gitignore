@@ -1,5 +1,6 @@
 .env
 .firebase/
 dist/
+dev-dist/
 node_modules/
 videos/
