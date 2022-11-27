@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => {
         registerType: "autoUpdate",
         injectRegister: "auto",
         workbox: {
-          globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
+          globPatterns: ["**/*.{js,css,html,ico,png,svg,woff2}"],
         },
         includeAssets: [
           "favicon.ico",
