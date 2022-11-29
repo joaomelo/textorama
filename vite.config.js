@@ -62,7 +62,7 @@ function createManifest(mode) {
       android512,
       {
         ...android512,
-        purpose: "maskable",
+        purpose: "any maskable",
       },
     ],
     screenshots: [
