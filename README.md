@@ -1,4 +1,4 @@
-Plain is a modest text editor. It works with plain text files in your file system.
+Textorama is a modest text editor. It works with plain text files in your file system.
 
 The content is in your disk in a universal open format, and the browser ensures the editor only accesses the files you permit. There is no need for security measures like sign-in. Your data is inherently portable and organized the way you want.
 

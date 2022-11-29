@@ -33,7 +33,7 @@ export default defineConfig(({ mode }) => {
 });
 
 function createManifest(mode) {
-  const name = mode === "development" ? "plain (dev)" : "plain";
+  const name = mode === "development" ? "Textorama (dev)" : "Textorama";
   const android192 = {
     src: "/android-chrome-192x192.png",
     sizes: "192x192",
@@ -48,7 +48,7 @@ function createManifest(mode) {
     name,
     short_name: name,
     description:
-      "plain is a modest text editor. It works with plain text files in your file system",
+      "Textorama is a modest text editor. It works with plain text files in your file system.",
     categories: ["productivity", "utilities"],
     start_url: "/",
     id: "/",

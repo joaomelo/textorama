@@ -11,7 +11,7 @@ const isSaveButtonDisabled = computed(
 <template>
   <BarBase class="bar">
     <template #start>
-      <h1 class="va-h3 title">plain</h1>
+      <h1 class="va-h3 title">Textorama</h1>
     </template>
     <template #end>
       <div class="buttons">

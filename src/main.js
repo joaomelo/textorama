@@ -41,7 +41,7 @@ export function initApp(elementId) {
       dsn: import.meta.env.VITE_SENTRY_DSN,
       integrations: [
         new BrowserTracing({
-          tracePropagationTargets: ["localhost", "plain.melo.plus", /^\//],
+          tracePropagationTargets: ["localhost", "textorama.online", /^\//],
         }),
       ],
       tracesSampleRate: 0.2,
