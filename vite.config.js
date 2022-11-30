@@ -18,6 +18,9 @@ export default defineConfig(({ mode }) => {
           "safari-pinned-tab.svg",
         ],
         manifest: createManifest(mode),
+        // devOptions: {
+        //   enabled: true,
+        // },
       }),
     ],
     root: "src",
@@ -33,7 +36,7 @@ export default defineConfig(({ mode }) => {
 });
 
 function createManifest(mode) {
-  const name = mode === "development" ? "Textorama (dev)" : "Textorama";
+  const name = `Textorama${mode === "development" ? " (dev)" : ""}`;
   const android192 = {
     src: "/android-chrome-192x192.png",
     sizes: "192x192",

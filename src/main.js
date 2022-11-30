@@ -16,7 +16,7 @@ import { version } from "../package.json";
 import App from "./app.vue";
 import { TextRecord } from "./text-record";
 
-export function initApp(elementId) {
+export async function initApp(elementId) {
   const app = createApp(App);
 
   app.provide("version", version);
@@ -48,15 +48,8 @@ export function initApp(elementId) {
     });
   }
 
-  if ("launchQueue" in window && "files" in LaunchParams.prototype) {
-    launchQueue.setConsumer((launchParams) => {
-      if (!launchParams.files.length) return;
-      const file = launchParams.files[0];
-      console.log(file);
-    });
-  }
-
   const textRecord = new TextRecord(welcome);
+  updateIfLaunchedByFile(textRecord);
   app.provide("text-record", textRecord);
 
   const vuestic = createVuesticEssential({
@@ -65,4 +58,16 @@ export function initApp(elementId) {
   app.use(vuestic);
 
   app.mount(elementId);
+}
+
+function updateIfLaunchedByFile(textRecord) {
+  if (!("launchQueue" in window)) return;
+  if (!("files" in LaunchParams.prototype)) return;
+
+  // setConsumer does not triggers if the app is not launched by file, so it is not a good place to branch what to do in every launch situation
+  launchQueue.setConsumer((launchParams) => {
+    if (launchParams.files.length <= 0) return;
+    const fileHandle = launchParams.files[0];
+    textRecord.open(fileHandle);
+  });
 }

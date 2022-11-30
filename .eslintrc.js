@@ -18,6 +18,7 @@ module.exports = {
   globals: {
     showOpenFilePicker: "readonly",
     showSaveFilePicker: "readonly",
+    FileSystemFileHandle: "readonly",
     LaunchParams: "readonly",
     launchQueue: "readonly",
   },

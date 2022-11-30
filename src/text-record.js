@@ -1,59 +1,47 @@
 import { ref, computed } from "vue";
-import { fileOpen, fileSave, supported } from "browser-fs-access";
 
 export class TextRecord {
-  constructor(initialContent = "") {
-    this.supportsFiles = supported;
-
-    this.content = ref(initialContent);
-    this.status = ref("dirty");
+  constructor(initialContent) {
+    this.content = ref(null);
+    this.status = ref(null);
 
     this.fileLink = ref(null);
     this.fileName = computed(() => {
       if (!this.fileLink.value) return null;
       return this.fileLink.value.name;
     });
+    this.fileHandle = computed(() => {
+      if (!this.fileLink.value) return null;
+      return this.fileLink.value.handle;
+    });
+
+    this.open(initialContent);
   }
 
-  static mimeType = "text/plain";
-  static options = {
-    mimeTypes: [TextRecord.mimeType],
-    extensions: [".txt", ".md"],
-    description: "Text files",
-    fileName: "Untitled.txt",
-  };
-
-  async open() {
-    const file = await fileOpen(TextRecord.options);
-
-    this.fileLink.value = file.handle;
-    this.content.value = await file.text();
-    this.status.value = "clean";
-  }
-
-  async new() {
-    this.content.value = "";
-    if (this.supportsFiles) {
-      await this.saveAs();
+  async open(source = "") {
+    if (source instanceof File) {
+      this.fileLink.value = source;
+    } else if (source instanceof FileSystemFileHandle) {
+      this.fileLink.value = await source.getFile();
+    } else {
+      this.fileLink.value = null;
     }
-  }
 
-  async saveAs() {
-    this.fileLink.value = await fileSave(
-      new Blob([this.content.value], { type: TextRecord.mimeType }),
-      TextRecord.options
-    );
+    if (this.fileLink.value) {
+      this.content.value = await this.fileLink.value.text();
+    } else {
+      this.content.value = source;
+    }
+
     this.status.value = "clean";
   }
 
-  async save() {
-    if (!this.supportsFiles || !this.fileLink.value) return;
-
-    await fileSave(
-      new Blob([this.content.value], { type: "text/plain" }),
-      TextRecord.options,
-      this.fileLink.value
-    );
+  async save(source) {
+    if (source instanceof File) {
+      this.fileLink.value = source;
+    } else if (source instanceof FileSystemFileHandle) {
+      this.fileLink.value = await source.getFile();
+    }
 
     this.status.value = "clean";
   }
