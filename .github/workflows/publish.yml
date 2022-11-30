@@ -61,7 +61,7 @@ jobs:
       - uses: "actions/setup-node@v2"
         with:
           node-version: "14"
-      - run: npm i
+      - run: npm i -f
       - run: npx firebase use --add $FIREBASE_PROJECT
       - run: npm run deploy
       - uses: actions/upload-artifact@master
