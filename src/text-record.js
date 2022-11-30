@@ -11,7 +11,12 @@ export class TextRecord {
       return this.fileLink.value.name;
     });
     this.fileHandle = computed(() => {
+      console.log("computed => this.fileLink.value", this.fileLink.value);
       if (!this.fileLink.value) return null;
+      console.log(
+        "computed => this.fileLink.value.handle",
+        this.fileLink.value.handle
+      );
       return this.fileLink.value.handle;
     });
 
@@ -20,13 +25,13 @@ export class TextRecord {
 
   async open(source = "") {
     if (source instanceof File) {
-      console.log("source instanceof File");
+      console.log("source instanceof File", source);
       this.fileLink.value = source;
     } else if (source instanceof FileSystemFileHandle) {
       console.log("source instanceof File");
       this.fileLink.value = await source.getFile();
     } else {
-      console.log("this.fileLink.value = null");
+      console.log("this.fileLink.value = null", source);
       this.fileLink.value = null;
     }
 
