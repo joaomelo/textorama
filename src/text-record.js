@@ -20,10 +20,13 @@ export class TextRecord {
 
   async open(source = "") {
     if (source instanceof File) {
+      console.log("source instanceof File");
       this.fileLink.value = source;
     } else if (source instanceof FileSystemFileHandle) {
+      console.log("source instanceof File");
       this.fileLink.value = await source.getFile();
     } else {
+      console.log("this.fileLink.value = null");
       this.fileLink.value = null;
     }
 

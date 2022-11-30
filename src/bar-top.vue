@@ -35,6 +35,7 @@ const contentAsBlob = () =>
   new Blob([textRecord.content.value], { type: mimeType });
 
 const handleSave = async () => {
+  console.log({ fileHandle: textRecord.fileHandle.value });
   await fileSave(contentAsBlob(), options, textRecord.fileHandle.value);
   textRecord.save();
 };
