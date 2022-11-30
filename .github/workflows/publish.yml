@@ -88,3 +88,4 @@ jobs:
           environment: production
           version: ${{ needs.bump.outputs.version }}
           sourcemaps: dist
+          ignore_missing: true
