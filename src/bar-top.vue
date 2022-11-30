@@ -15,7 +15,12 @@ const options = {
 
 const handleOpen = async () => {
   const file = await fileOpen(options);
-  await textRecord.open(file);
+  if (supported) {
+    await textRecord.open(file.handle);
+  } else {
+    const content = await file.text();
+    await textRecord.open(content);
+  }
 };
 
 const handleNew = async () => {
@@ -30,18 +35,17 @@ const handleNew = async () => {
   }
 };
 
-const isSaveButtonDisabled = computed(() => !textRecord.fileLink.value);
+const isSaveButtonDisabled = computed(() => !textRecord.fileHandle.value);
+
 const contentAsBlob = () =>
   new Blob([textRecord.content.value], { type: mimeType });
-
 const handleSave = async () => {
-  console.log({ fileHandle: textRecord.fileHandle.value });
   await fileSave(contentAsBlob(), options, textRecord.fileHandle.value);
   textRecord.save();
 };
 const handleSaveAs = async () => {
-  const file = await fileSave(contentAsBlob(), options);
-  textRecord.save(file);
+  const maybeFileHandle = await fileSave(contentAsBlob(), options);
+  textRecord.save(maybeFileHandle);
 };
 </script>
 

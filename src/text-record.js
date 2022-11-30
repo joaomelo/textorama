@@ -1,54 +1,41 @@
 import { ref, computed } from "vue";
+import { supported } from "browser-fs-access";
 
 export class TextRecord {
   constructor(initialContent) {
     this.content = ref(null);
     this.status = ref(null);
 
-    this.fileLink = ref(null);
+    this.fileHandle = ref(null);
     this.fileName = computed(() => {
-      if (!this.fileLink.value) return null;
-      return this.fileLink.value.name;
-    });
-    this.fileHandle = computed(() => {
-      console.log("computed => this.fileLink.value", this.fileLink.value);
-      if (!this.fileLink.value) return null;
-      console.log(
-        "computed => this.fileLink.value.handle",
-        this.fileLink.value.handle
-      );
-      return this.fileLink.value.handle;
+      if (!this.fileHandle.value) return null;
+      return this.fileHandle.value.name;
     });
 
     this.open(initialContent);
   }
 
   async open(source = "") {
-    if (source instanceof File) {
-      console.log("source instanceof File", source);
-      this.fileLink.value = source;
-    } else if (source instanceof FileSystemFileHandle) {
-      console.log("source instanceof File");
-      this.fileLink.value = await source.getFile();
+    let handle, content;
+    if (supported && source instanceof FileSystemFileHandle) {
+      handle = source;
+      const file = await source.getFile();
+      content = await file.text();
+    } else if (typeof source === "string") {
+      handle = null;
+      content = source;
     } else {
-      console.log("this.fileLink.value = null", source);
-      this.fileLink.value = null;
+      throw new Error("Opens only 'FileSystemFileHandle' or 'string'");
     }
 
-    if (this.fileLink.value) {
-      this.content.value = await this.fileLink.value.text();
-    } else {
-      this.content.value = source;
-    }
-
+    this.fileHandle.value = handle;
+    this.content.value = content;
     this.status.value = "clean";
   }
 
   async save(source) {
-    if (source instanceof File) {
-      this.fileLink.value = source;
-    } else if (source instanceof FileSystemFileHandle) {
-      this.fileLink.value = await source.getFile();
+    if (supported && source instanceof FileSystemFileHandle) {
+      this.fileHandle.value = source;
     }
 
     this.status.value = "clean";
