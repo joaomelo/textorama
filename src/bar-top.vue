@@ -40,7 +40,9 @@ const isSaveButtonDisabled = computed(() => !textRecord.fileHandle.value);
 const contentAsBlob = () =>
   new Blob([textRecord.content.value], { type: mimeType });
 const handleSave = async () => {
-  console.log({ "textRecord.fileHandle.value": textRecord.fileHandle.value });
+  console.info({
+    "handleSave->textRecord.fileHandle.value": textRecord.fileHandle.value,
+  });
   await fileSave(contentAsBlob(), options, textRecord.fileHandle.value);
   textRecord.save();
 };
