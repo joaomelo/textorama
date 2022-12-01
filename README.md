@@ -19,3 +19,9 @@ If you are on a mobile device or using either Firefox or Safari, you can still s
 Textorama plays nicely with the markdown syntax. It is still portable plain text but visually enriched.
 
 You can read more about it [here](https://www.markdownguide.org/).
+
+# Open Source
+
+This project is open source. You are welcome to run, copy, distribute and study the software available at its [GitHub repository](https://github.com/joaomelo/textorama).
+
+Regarding contributions, I have a daytime job and a wonderful family to assist. So I give my love to coding in the gaps presented late nights and weekends. To manage that scarcity and my mental health, I decided to keep the project closed to contributions for now.
