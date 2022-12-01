@@ -4,7 +4,7 @@ Textorama is a web editor that works with plain text files in your local system.
 
 The content is in your disk in a universal open format, and the browser ensures the editor only accesses the files you permit. There is no need for security measures like sign-in. Your data is inherently portable and organized the way you want.
 
-You can start authoring by clicking **new** or **open** in the top bar.
+You can start authoring by accessing the [app](https://textorama.online/) and clicking **new** or **open** in the top bar.
 
 # Local Files
 
