@@ -8,8 +8,6 @@ on:
 jobs:
   qa:
     runs-on: ubuntu-latest
-    env:
-      CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -20,7 +18,6 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - run: npm i
       - run: npm run lint
-      - run: npm run test:ci
 
   bump:
     needs: [qa]
