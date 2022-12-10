@@ -1,55 +1,21 @@
 <script setup>
-import { computed, inject } from "vue";
-import { supported, fileOpen, fileSave } from "browser-fs-access";
+import { inject } from "vue";
 import BarBase from "./bar-base.vue";
 
 const textRecord = inject("text-record");
 
-const mimeType = "text/plain";
-const options = {
-  mimeTypes: [mimeType],
-  extensions: [".txt", ".md"],
-  description: "Text files",
-  fileName: "Untitled.txt",
-};
+const handleOpen = () => textRecord.open();
+const handleNew = () => textRecord.newAs();
+const handleSaveAs = () => textRecord.saveAs();
 
-const handleOpen = async () => {
-  const file = await fileOpen(options);
-  if (supported) {
-    await textRecord.open(file.handle);
-  } else {
-    const content = await file.text();
-    await textRecord.open(content);
-  }
-};
+// const isSaveButtonDisabled = computed(() => !textRecord.fileHandle.value);
 
-const handleNew = async () => {
-  if (supported) {
-    const fileHandle = await fileSave(
-      new Blob([""], { type: mimeType }),
-      options
-    );
-    await textRecord.open(fileHandle);
-  } else {
-    await textRecord.open("");
-  }
-};
-
-const isSaveButtonDisabled = computed(() => !textRecord.fileHandle.value);
-
-const contentAsBlob = () =>
-  new Blob([textRecord.content.value], { type: mimeType });
-const handleSave = async () => {
-  console.info({
-    "handleSave->textRecord.fileHandle.value": textRecord.fileHandle.value,
-  });
-  await fileSave(contentAsBlob(), options, textRecord.fileHandle.value);
-  textRecord.save();
-};
-const handleSaveAs = async () => {
-  const maybeFileHandle = await fileSave(contentAsBlob(), options);
-  textRecord.save(maybeFileHandle);
-};
+// const contentAsBlob = () =>
+//   new Blob([textRecord.content.value], { type: mimeType });
+// const handleSave = async () => {
+//   await fileSave(contentAsBlob(), options, textRecord.fileHandle.value);
+//   textRecord.save();
+// };
 </script>
 
 <template>
@@ -65,7 +31,7 @@ const handleSaveAs = async () => {
         <va-button id="open" icon="file_open" gradient @click="handleOpen">
           open
         </va-button>
-        <va-button
+        <!-- <va-button
           v-if="supported"
           id="save"
           icon="save"
@@ -74,9 +40,9 @@ const handleSaveAs = async () => {
           @click="handleSave"
         >
           save
-        </va-button>
+        </va-button> -->
         <va-button id="save-as" icon="save_as" gradient @click="handleSaveAs">
-          {{ supported ? "save as" : "download" }}
+          {{ textRecord.canLink ? "save as" : "download" }}
         </va-button>
       </div>
     </template>

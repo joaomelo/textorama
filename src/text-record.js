@@ -1,10 +1,9 @@
 import { ref, computed } from "vue";
-import { supported } from "browser-fs-access";
+import { canLink, saveTextFileAs, openTextFile } from "./files";
 
 export class TextRecord {
-  constructor(initialContent) {
-    this.content = ref(null);
-    this.status = ref(null);
+  constructor() {
+    this.canLink = canLink;
 
     this.fileHandle = ref(null);
     this.fileName = computed(() => {
@@ -12,42 +11,54 @@ export class TextRecord {
       return this.fileHandle.value.name;
     });
 
-    this.open(initialContent);
+    this.status = ref(null);
+    this.content = ref(null);
   }
 
-  async open(source = "") {
-    let handle, content;
-    if (supported && source instanceof FileSystemFileHandle) {
-      handle = source;
-      const file = await source.getFile();
-      content = await file.text();
-    } else if (typeof source === "string") {
-      handle = null;
-      content = source;
-    } else {
-      throw new Error("Opens only 'FileSystemFileHandle' or 'string'");
+  async newAs() {
+    const newContent = "";
+    if (canLink) {
+      const { success, handle } = await saveTextFileAs(newContent);
+      if (!success) return;
+      this.fileHandle.value = handle;
     }
-
-    this.fileHandle.value = handle;
-    this.content.value = content;
-    this.status.value = "clean";
+    this.clean(newContent);
   }
 
-  async save(source) {
-    if (supported && source instanceof FileSystemFileHandle) {
-      this.fileHandle.value = source;
+  async saveAs() {
+    const newContent = this.content.value;
+    const { success, handle } = await saveTextFileAs(newContent);
+    if (success) {
+      this.fileHandle.value = handle;
+      this.clean();
     }
-
-    this.status.value = "clean";
   }
 
-  draft(newContent) {
-    const a = this.content.value.replaceAll(/\r\n/gm, "\n");
-    const b = newContent.replaceAll(/\r\n/gm, "\n");
-    const areEqual = a === b;
-    if (areEqual) return;
+  async open() {
+    const { success, content, handle } = await openTextFile();
+    if (!success) return;
+
+    if (canLink) {
+      this.fileHandle.value = handle;
+    }
+    this.clean(content);
+  }
+
+  dirty(newContent) {
+    if (this.content.value) {
+      const a = this.content.value.replaceAll(/\r\n/gm, "\n");
+      const b = newContent.replaceAll(/\r\n/gm, "\n");
+      if (a === b) return;
+    }
 
     this.content.value = newContent;
     this.status.value = "dirty";
+  }
+
+  clean(newContent) {
+    if (newContent || newContent === "") {
+      this.content.value = newContent;
+    }
+    this.status.value = "clean";
   }
 }
