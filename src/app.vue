@@ -1,8 +1,8 @@
 <script setup>
 import { inject, watch } from "vue";
-import BarTop from "./bar-top.vue";
-import BarBottom from "./bar-bottom.vue";
-import EditorView from "./editor-view.vue";
+import ViewTop from "./view-top.vue";
+import ViewBottom from "./view-bottom.vue";
+import ViewEditor from "./view-editor.vue";
 
 const textRecord = inject("text-record");
 const unload = () => "Are you sure want to leave before saving?";
@@ -12,9 +12,9 @@ watch(textRecord.status, (status) => {
 </script>
 <template>
   <div class="app">
-    <header><BarTop /></header>
-    <main><EditorView /></main>
-    <footer><BarBottom /></footer>
+    <header><ViewTop /></header>
+    <main><ViewEditor /></main>
+    <footer><ViewBottom /></footer>
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <script setup>
 import { inject } from "vue";
-import BarBase from "./bar-base.vue";
+import BaseBar from "./base-bar.vue";
 
 const textRecord = inject("text-record");
 
@@ -19,7 +19,7 @@ const handleSaveAs = () => textRecord.saveAs();
 </script>
 
 <template>
-  <BarBase class="bar">
+  <BaseBar class="bar">
     <template #start>
       <h1 class="va-h3 title">Textorama</h1>
     </template>
@@ -46,7 +46,7 @@ const handleSaveAs = () => textRecord.saveAs();
         </va-button>
       </div>
     </template>
-  </BarBase>
+  </BaseBar>
 </template>
 
 <style scoped>

@@ -1,12 +1,12 @@
 <script setup>
 import { inject } from "vue";
-import BarBase from "./bar-base.vue";
+import BaseBar from "./base-bar.vue";
 
 const version = inject("version");
 const textRecord = inject("text-record");
 </script>
 <template>
-  <BarBase class="bar">
+  <BaseBar class="bar">
     <template #start>
       <p>{{ version }}</p>
     </template>
@@ -16,7 +16,7 @@ const textRecord = inject("text-record");
         ({{ textRecord.status.value }})
       </p>
     </template>
-  </BarBase>
+  </BaseBar>
 </template>
 
 <style scoped>
