@@ -20,7 +20,8 @@ export async function initApp(elementId) {
 
   const textRecord = new TextRecord();
   textRecord.dirty(welcome);
-  updateIfLaunchedByFile(textRecord);
+  const fileHandle = await detectFileLaunch(textRecord);
+  console.log({ fileHandle });
   app.provide("text-record", textRecord);
   app.provide("version", version);
 
@@ -49,34 +50,25 @@ function initSentry({ app, version }) {
   }
 }
 
-function updateIfLaunchedByFile(textRecord) {
+function detectFileLaunch() {
   if (!("launchQueue" in window)) return;
   if (!("files" in LaunchParams.prototype)) return;
 
-  console.log({
-    '"targetURL" in LaunchParams.prototype':
-      "targetURL" in LaunchParams.prototype,
-  });
-  console.log({ "LaunchParams.targetURL": LaunchParams.targetURL });
+  return new Promise((resolve) => {
+    let invoked = false;
 
-  // if ("launchQueue" in window && "targetURL" in window.LaunchParams.prototype) {
-  //   window.launchQueue.setConsumer(launchParams => {
-  //     if (launchParams.targetURL) {
-  //       const params = new URL(launchParams.targetURL).searchParams;
-  //       const track = params.get("track");
-  //       if (track) {
-  //         audio.src = track;
-  //         title.textContent = new URL(track).pathname.substr(1);
-  //         audio.play();
-  //       }
-  //     }
-  //   });
+    // setConsumer does not triggers if the app is not launched by file, so it is not a good place to branch what to do in every launch situation
+    launchQueue.setConsumer((launchParams) => {
+      invoked = true;
+      console.log("setConsumer was invoked");
+      if (launchParams.files.length <= 0) return resolve();
+      const fileHandle = launchParams.files[0];
+      resolve(fileHandle);
+    });
 
-  // setConsumer does not triggers if the app is not launched by file, so it is not a good place to branch what to do in every launch situation
-  launchQueue.setConsumer((launchParams) => {
-    console.log({ setConsumer: launchParams });
-    if (launchParams.files.length <= 0) return;
-    const fileHandle = launchParams.files[0];
-    textRecord.open(fileHandle);
+    setTimeout(() => {
+      console.log({ "setTimeout in motion": invoked });
+      if (!invoked) resolve();
+    }, 10);
   });
 }
