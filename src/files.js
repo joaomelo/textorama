@@ -10,14 +10,14 @@ const options = {
 
 export const canLink = supported;
 
-export async function saveTextFileAs(newContent) {
+export async function saveTextFile({ content, handle }) {
   try {
     const maybeHandle = await fileSave(
-      new Blob([newContent], { type: mimeType }),
-      options
+      new Blob([content], { type: mimeType }),
+      options,
+      handle
     );
-    const handle = canLink ? maybeHandle : null;
-    return { success: true, handle };
+    return { success: true, handle: canLink ? maybeHandle : null };
   } catch {
     return { success: false };
   }
@@ -25,7 +25,7 @@ export async function saveTextFileAs(newContent) {
 
 export async function openTextFile() {
   try {
-    // fileOpen will return a lib specific File type that (differently from the vanilla File interface) can have a handle property. This will only happen if the browser supports the files system api.
+    // fileOpen will return a lib specific File type that (differently from the vanilla File interface) can have a handle property. This handle will only be present if the browser supports the files system api.
     const file = await fileOpen(options);
     const handle = canLink ? file.handle : null;
     const content = await file.text();

@@ -1,5 +1,5 @@
 import { ref, computed } from "vue";
-import { canLink, saveTextFileAs, openTextFile } from "./files";
+import { canLink, saveTextFile, openTextFile } from "./files";
 
 export class TextRecord {
   constructor() {
@@ -16,20 +16,29 @@ export class TextRecord {
   }
 
   async newAs() {
-    const newContent = "";
+    const content = "";
     if (canLink) {
-      const { success, handle } = await saveTextFileAs(newContent);
+      const { success, handle } = await saveTextFile({ content });
       if (!success) return;
       this.fileHandle.value = handle;
     }
-    this.clean(newContent);
+    this.clean(content);
   }
 
   async saveAs() {
-    const newContent = this.content.value;
-    const { success, handle } = await saveTextFileAs(newContent);
+    const content = this.content.value;
+    const { success, handle } = await saveTextFile({ content });
     if (success) {
       this.fileHandle.value = handle;
+      this.clean();
+    }
+  }
+
+  async save() {
+    const content = this.content.value;
+    const handle = this.fileHandle.value;
+    const { success } = await saveTextFile({ content, handle });
+    if (success) {
       this.clean();
     }
   }

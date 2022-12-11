@@ -1,5 +1,5 @@
 <script setup>
-import { inject } from "vue";
+import { computed, inject } from "vue";
 import BaseBar from "./base-bar.vue";
 
 const textRecord = inject("text-record");
@@ -7,15 +7,9 @@ const textRecord = inject("text-record");
 const handleOpen = () => textRecord.open();
 const handleNew = () => textRecord.newAs();
 const handleSaveAs = () => textRecord.saveAs();
+const handleSave = () => textRecord.save();
 
-// const isSaveButtonDisabled = computed(() => !textRecord.fileHandle.value);
-
-// const contentAsBlob = () =>
-//   new Blob([textRecord.content.value], { type: mimeType });
-// const handleSave = async () => {
-//   await fileSave(contentAsBlob(), options, textRecord.fileHandle.value);
-//   textRecord.save();
-// };
+const isSaveButtonDisabled = computed(() => !textRecord.fileHandle.value);
 </script>
 
 <template>
@@ -31,8 +25,8 @@ const handleSaveAs = () => textRecord.saveAs();
         <va-button id="open" icon="file_open" gradient @click="handleOpen">
           open
         </va-button>
-        <!-- <va-button
-          v-if="supported"
+        <va-button
+          v-if="textRecord.canLink"
           id="save"
           icon="save"
           gradient
@@ -40,7 +34,7 @@ const handleSaveAs = () => textRecord.saveAs();
           @click="handleSave"
         >
           save
-        </va-button> -->
+        </va-button>
         <va-button id="save-as" icon="save_as" gradient @click="handleSaveAs">
           {{ textRecord.canLink ? "save as" : "download" }}
         </va-button>
