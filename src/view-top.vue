@@ -4,7 +4,7 @@ import BaseBar from "./base-bar.vue";
 
 const textRecord = inject("text-record");
 
-const handleOpen = () => textRecord.open();
+const handleOpen = () => textRecord.openAs();
 const handleNew = () => textRecord.newAs();
 const handleSaveAs = () => textRecord.saveAs();
 const handleSave = () => textRecord.save();

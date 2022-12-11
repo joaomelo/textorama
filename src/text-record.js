@@ -1,5 +1,11 @@
 import { ref, computed } from "vue";
-import { canLink, saveTextFile, openTextFile } from "./files";
+import {
+  canLink,
+  newTextFile,
+  saveToThisTextFile,
+  openTextFile,
+  openThisTextFile,
+} from "./files";
 
 export class TextRecord {
   constructor() {
@@ -18,7 +24,7 @@ export class TextRecord {
   async newAs() {
     const content = "";
     if (canLink) {
-      const { success, handle } = await saveTextFile({ content });
+      const { success, handle } = await newTextFile(content);
       if (!success) return;
       this.fileHandle.value = handle;
     }
@@ -27,29 +33,40 @@ export class TextRecord {
 
   async saveAs() {
     const content = this.content.value;
-    const { success, handle } = await saveTextFile({ content });
-    if (success) {
-      this.fileHandle.value = handle;
-      this.clean();
-    }
+
+    const { success, handle } = await newTextFile(content);
+    if (!success) return;
+
+    this.fileHandle.value = handle;
+    this.clean();
   }
 
   async save() {
     const content = this.content.value;
     const handle = this.fileHandle.value;
-    const { success } = await saveTextFile({ content, handle });
-    if (success) {
-      this.clean();
-    }
+
+    const { success } = await saveToThisTextFile({ content, handle });
+    if (!success) return;
+
+    this.clean();
   }
 
-  async open() {
+  async openAs() {
     const { success, content, handle } = await openTextFile();
     if (!success) return;
 
     if (canLink) {
       this.fileHandle.value = handle;
     }
+
+    this.clean(content);
+  }
+
+  async open(handle) {
+    const { success, content } = await openThisTextFile(handle);
+    if (!success) return;
+
+    this.fileHandle.value = handle;
     this.clean(content);
   }
 

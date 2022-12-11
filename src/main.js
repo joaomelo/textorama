@@ -19,9 +19,13 @@ export async function initApp(elementId) {
   initSentry({ app, version });
 
   const textRecord = new TextRecord();
-  textRecord.dirty(welcome);
-  const fileHandle = await detectFileLaunch(textRecord);
-  console.log({ fileHandle });
+  const fileHandle = await wasFileLaunched(textRecord);
+  if (fileHandle) {
+    textRecord.open(fileHandle);
+  } else {
+    textRecord.dirty(welcome);
+  }
+
   app.provide("text-record", textRecord);
   app.provide("version", version);
 
@@ -50,24 +54,21 @@ function initSentry({ app, version }) {
   }
 }
 
-function detectFileLaunch() {
-  if (!("launchQueue" in window)) return;
-  if (!("files" in LaunchParams.prototype)) return;
-
+function wasFileLaunched() {
   return new Promise((resolve) => {
-    let invoked = false;
+    if (!("launchQueue" in window)) return resolve();
+    if (!("files" in LaunchParams.prototype)) return resolve();
 
     // setConsumer does not triggers if the app is not launched by file, so it is not a good place to branch what to do in every launch situation
+    let invoked = false;
     launchQueue.setConsumer((launchParams) => {
       invoked = true;
-      console.log("setConsumer was invoked");
       if (launchParams.files.length <= 0) return resolve();
       const fileHandle = launchParams.files[0];
       resolve(fileHandle);
     });
 
     setTimeout(() => {
-      console.log({ "setTimeout in motion": invoked });
       if (!invoked) resolve();
     }, 10);
   });
