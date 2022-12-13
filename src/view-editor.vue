@@ -1,7 +1,23 @@
 <script setup>
 import { ref, onMounted, watch, inject } from "vue";
-import { EditorView, basicSetup } from "codemirror";
+import {
+  drawSelection,
+  EditorView,
+  highlightActiveLine,
+  highlightActiveLineGutter,
+  keymap,
+  lineNumbers,
+} from "@codemirror/view";
 import { EditorState } from "@codemirror/state";
+import { defaultKeymap, historyKeymap, history } from "@codemirror/commands";
+import {
+  bracketMatching,
+  defaultHighlightStyle,
+  indentOnInput,
+  syntaxHighlighting,
+} from "@codemirror/language";
+import { highlightSelectionMatches, searchKeymap } from "@codemirror/search";
+import { closeBrackets, autocompletion } from "@codemirror/autocomplete";
 import { markdown } from "@codemirror/lang-markdown";
 
 const textRecord = inject("text-record");
@@ -11,8 +27,20 @@ let editorView = null;
 onMounted(() => {
   const initialState = EditorState.create({
     extensions: [
-      basicSetup,
+      lineNumbers(),
       EditorView.lineWrapping,
+      highlightActiveLineGutter(),
+      history(),
+      drawSelection(),
+      EditorState.allowMultipleSelections.of(true),
+      indentOnInput(),
+      syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
+      bracketMatching(),
+      closeBrackets(),
+      autocompletion(),
+      highlightActiveLine(),
+      highlightSelectionMatches(),
+      keymap.of([...defaultKeymap, ...searchKeymap, ...historyKeymap]),
       markdown(),
       EditorView.updateListener.of((v) => {
         if (v.docChanged) {

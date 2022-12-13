@@ -14,11 +14,13 @@ Better still, on those platforms, the browser lets you install Textorama on your
 
 If you are on a mobile device or using either Firefox or Safari, you can still save locally, but every operation translates to downloading a new text file.
 
-# Markdown
+# Text Editing
 
-Textorama plays nicely with the markdown syntax. It is still portable plain text but visually enriched.
-
-You can read more about it [here](https://www.markdownguide.org/).
+Many of Textorama's features come from the fantastic [Codemirror](https://codemirror.net/) library. Among them:
+- A set of keyboard shortcuts found in [this list](https://codemirror.net/docs/ref/#commands.defaultKeymap).
+- The search panel opened with CTRL + F.  
+- Select and edit at multiple locations by holding CTRL and clicking the positions you want to add new cursors.
+- Support for the markdown syntax. It is still portable plain text but visually enriched. You can read more about it [here](https://www.markdownguide.org/).
 
 # Open Source
 
