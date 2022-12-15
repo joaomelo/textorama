@@ -1,14 +1,9 @@
 <script setup>
 import { computed, inject } from "vue";
+import ActionButton from "./action-button.vue";
 import BaseBar from "./base-bar.vue";
 
 const textRecord = inject("text-record");
-
-const handleOpen = () => textRecord.openAs();
-const handleNew = () => textRecord.newAs();
-const handleSaveAs = () => textRecord.saveAs();
-const handleSave = () => textRecord.save();
-
 const isSaveButtonDisabled = computed(() => !textRecord.fileHandle.value);
 </script>
 
@@ -19,25 +14,36 @@ const isSaveButtonDisabled = computed(() => !textRecord.fileHandle.value);
     </template>
     <template #end>
       <div class="buttons">
-        <va-button id="new" icon="note_add" gradient @click="handleNew">
-          new
-        </va-button>
-        <va-button id="open" icon="file_open" gradient @click="handleOpen">
-          open
-        </va-button>
-        <va-button
+        <ActionButton
+          id="new"
+          label="new"
+          icon="note_add"
+          :shortcut="(e) => e.key === 'n' && e.altKey"
+          @action="() => textRecord.newAs()"
+        />
+        <ActionButton
+          id="open"
+          label="open"
+          icon="file_open"
+          :shortcut="(e) => e.key === 'o' && (e.ctrlKey || e.metaKey)"
+          @action="() => textRecord.openAs()"
+        />
+        <ActionButton
           v-if="textRecord.canLink"
           id="save"
+          label="save"
           icon="save"
-          gradient
           :disabled="isSaveButtonDisabled"
-          @click="handleSave"
-        >
-          save
-        </va-button>
-        <va-button id="save-as" icon="save_as" gradient @click="handleSaveAs">
-          {{ textRecord.canLink ? "save as" : "download" }}
-        </va-button>
+          :shortcut="(e) => e.key === 's' && (e.ctrlKey || e.metaKey)"
+          @action="() => textRecord.save()"
+        />
+        <ActionButton
+          id="save-as"
+          :label="textRecord.canLink ? 'save as' : 'download'"
+          icon="save_as"
+          :shortcut="(e) => e.key === 'd' && (e.ctrlKey || e.metaKey)"
+          @action="() => textRecord.saveAs()"
+        />
       </div>
     </template>
   </BaseBar>

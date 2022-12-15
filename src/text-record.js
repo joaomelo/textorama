@@ -42,6 +42,8 @@ export class TextRecord {
   }
 
   async save() {
+    if (!this.canLink || !this.fileHandle.value) return;
+
     const content = this.content.value;
     const handle = this.fileHandle.value;
 

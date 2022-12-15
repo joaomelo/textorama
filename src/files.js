@@ -23,6 +23,8 @@ export async function newTextFile(content) {
 }
 
 export async function saveToThisTextFile({ content, handle }) {
+  if (!handle) return { success: false };
+
   try {
     await fileSave(new Blob([content], { type: mimeType }), options, handle);
     return { success: true };

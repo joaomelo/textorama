@@ -17,9 +17,10 @@ If you are on a mobile device or using either Firefox or Safari, you can still s
 # Text Editing
 
 Many of Textorama's features come from the fantastic [Codemirror](https://codemirror.net/) library. Among them:
+
 - A set of keyboard shortcuts found in [this list](https://codemirror.net/docs/ref/#commands.defaultKeymap).
-- The search panel opened with CTRL + F.  
 - Select and edit at multiple locations by holding CTRL and clicking the positions you want to add new cursors.
+- By the way, all those top bar buttons are tied to keyboard shortcuts: "new" is "alt + n", "open" with "ctrl + o", "save" goes by "ctrl + s". The last one will be "save as" or "download" depending on your browser support, both work through "ctrl + d".
 - Support for the markdown syntax. It is still portable plain text but visually enriched. You can read more about it [here](https://www.markdownguide.org/).
 
 # Open Source
