@@ -20,11 +20,11 @@ Many of Textorama's features come from the fantastic [Codemirror](https://codemi
 
 - A set of keyboard shortcuts found in [this list](https://codemirror.net/docs/ref/#commands.defaultKeymap).
 - Select and edit at multiple locations by holding CTRL and clicking the positions you want to add new cursors.
-- By the way, all those top bar buttons are tied to keyboard shortcuts: "new" is "alt + n", "open" with "ctrl + o", "save" goes by "ctrl + s". The last one will be "save as" or "download" depending on your browser support, both work through "ctrl + d".
+- By the way, all those top bar buttons are tied to keyboard shortcuts: "new" is "alt + n", "open" with "ctrl + o", and "save" goes by "ctrl + s". The last one will be "save as" or "download", depending on your browser support. Both work through "ctrl + d".
 - Support for the markdown syntax. It is still portable plain text but visually enriched. You can read more about it [here](https://www.markdownguide.org/).
 
 # Open Source
 
 This project is open source. You are welcome to run, copy, distribute and study the software available at its [GitHub repository](https://github.com/joaomelo/textorama).
 
-Regarding contributions, I have a daytime job and a wonderful family to assist. So I give my love to coding in the gaps presented late nights and weekends. To manage that scarcity and my mental health, I decided to keep the project closed to contributions for now.
+Regarding contributions, I have a daytime job and a wonderful family to assist. So I code in the gaps presented late nights and weekends. To manage that scarcity and my mental health, I decided to keep the project closed to contributions for now.
