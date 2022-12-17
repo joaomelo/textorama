@@ -14,10 +14,6 @@ import App from "./app.vue";
 import { TextRecord } from "./text-record";
 
 export async function initApp(elementId) {
-  const app = createApp(App);
-
-  initSentry({ app, version });
-
   const textRecord = new TextRecord();
   const fileHandle = await wasFileLaunched(textRecord);
   if (fileHandle) {
@@ -26,8 +22,12 @@ export async function initApp(elementId) {
     textRecord.dirty(welcome);
   }
 
-  app.provide("text-record", textRecord);
-  app.provide("version", version);
+  const app = createApp(App, {
+    version,
+    textRecord,
+  });
+
+  initSentry({ app, version });
 
   const vuestic = createVuesticEssential({
     components: { VaButton },

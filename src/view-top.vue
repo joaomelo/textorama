@@ -1,10 +1,18 @@
 <script setup>
-import { computed, inject } from "vue";
 import ActionButton from "./action-button.vue";
 import BaseBar from "./base-bar.vue";
 
-const textRecord = inject("text-record");
-const isSaveButtonDisabled = computed(() => !textRecord.fileHandle.value);
+const props = defineProps({
+  canLink: {
+    type: Boolean,
+    default: false,
+  },
+  hasLink: {
+    type: Boolean,
+    default: false,
+  },
+});
+const emit = defineEmits(["new", "open", "save-as", "save", "search"]);
 </script>
 
 <template>
@@ -19,31 +27,38 @@ const isSaveButtonDisabled = computed(() => !textRecord.fileHandle.value);
           label="new"
           icon="note_add"
           :shortcut="(e) => e.key === 'n' && e.altKey"
-          @action="() => textRecord.newAs()"
+          @action="emit('new')"
         />
         <ActionButton
           id="open"
           label="open"
           icon="file_open"
           :shortcut="(e) => e.key === 'o' && (e.ctrlKey || e.metaKey)"
-          @action="() => textRecord.openAs()"
+          @action="emit('open')"
         />
         <ActionButton
-          v-if="textRecord.canLink"
+          v-if="props.canLink"
           id="save"
           label="save"
           icon="save"
-          :disabled="isSaveButtonDisabled"
+          :disabled="props.hasLink"
           :shortcut="(e) => e.key === 's' && (e.ctrlKey || e.metaKey)"
-          @action="() => textRecord.save()"
+          @action="emit('save')"
         />
         <ActionButton
           id="save-as"
-          :label="textRecord.canLink ? 'save as' : 'download'"
+          :label="props.canLink ? 'save as' : 'download'"
           icon="save_as"
           :shortcut="(e) => e.key === 'd' && (e.ctrlKey || e.metaKey)"
-          @action="() => textRecord.saveAs()"
+          @action="emit('save-as')"
         />
+        <!-- <ActionButton
+          id="search"
+          label="search"
+          icon="search"
+          :shortcut="(e) => e.key === 'f' && (e.ctrlKey || e.metaKey)"
+          @action="emit('search')"
+        /> -->
       </div>
     </template>
   </BaseBar>

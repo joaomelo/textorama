@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch, inject } from "vue";
+import { ref, onMounted, watch } from "vue";
 import {
   drawSelection,
   EditorView,
@@ -16,11 +16,21 @@ import {
   indentOnInput,
   syntaxHighlighting,
 } from "@codemirror/language";
-import { highlightSelectionMatches, searchKeymap } from "@codemirror/search";
+import { highlightSelectionMatches } from "@codemirror/search";
 import { closeBrackets, autocompletion } from "@codemirror/autocomplete";
 import { markdown } from "@codemirror/lang-markdown";
 
-const textRecord = inject("text-record");
+const props = defineProps({
+  showSearch: {
+    type: Boolean,
+    default: false,
+  },
+  content: {
+    type: String,
+    default: "",
+  },
+});
+const emit = defineEmits(["changed"]);
 
 const parent = ref(null);
 let editorView = null;
@@ -40,15 +50,15 @@ onMounted(() => {
       autocompletion(),
       highlightActiveLine(),
       highlightSelectionMatches(),
-      keymap.of([...defaultKeymap, ...searchKeymap, ...historyKeymap]),
+      keymap.of([...defaultKeymap, ...historyKeymap]),
       markdown(),
       EditorView.updateListener.of((v) => {
         if (v.docChanged) {
-          textRecord.dirty(editorView.state.doc.toString());
+          emit("changed", editorView.state.doc.toString());
         }
       }),
     ],
-    doc: textRecord.content.value,
+    doc: props.content,
   });
 
   editorView = new EditorView({
@@ -57,17 +67,28 @@ onMounted(() => {
   });
 });
 
-watch(textRecord.content, (newContent) => {
-  if (newContent === editorView.state.doc.toString()) return;
-  const update = editorView.state.update({
-    changes: {
-      from: 0,
-      to: editorView.state.doc.length,
-      insert: newContent,
-    },
-  });
-  editorView.update([update]);
-});
+watch(
+  () => props.content,
+  (newContent) => {
+    if (newContent === editorView.state.doc.toString()) return;
+    const update = editorView.state.update({
+      changes: {
+        from: 0,
+        to: editorView.state.doc.length,
+        insert: newContent,
+      },
+    });
+    editorView.update([update]);
+  }
+);
+
+watch(
+  () => props.showSearch,
+  (newShowSearch) => {
+    console.log({ newShowSearch });
+    // editorView.dispatch("openSearchPanel");
+  }
+);
 </script>
 <template>
   <div ref="parent" class="parent"></div>
