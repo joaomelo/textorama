@@ -16,7 +16,11 @@ import {
   indentOnInput,
   syntaxHighlighting,
 } from "@codemirror/language";
-import { highlightSelectionMatches } from "@codemirror/search";
+import {
+  highlightSelectionMatches,
+  openSearchPanel,
+  closeSearchPanel,
+} from "@codemirror/search";
 import { closeBrackets, autocompletion } from "@codemirror/autocomplete";
 import { markdown } from "@codemirror/lang-markdown";
 
@@ -85,8 +89,11 @@ watch(
 watch(
   () => props.showSearch,
   (newShowSearch) => {
-    console.log({ newShowSearch });
-    // editorView.dispatch("openSearchPanel");
+    if (newShowSearch) {
+      openSearchPanel(editorView);
+    } else {
+      closeSearchPanel(editorView);
+    }
   }
 );
 </script>

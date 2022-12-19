@@ -26,7 +26,7 @@ const handleSaveAs = () => props.textRecord.saveAs();
 const handleSave = () => props.textRecord.save();
 
 const showSearch = ref(false);
-const handleSearch = () => (showSearch.value = true);
+const handleSearch = () => (showSearch.value = !showSearch.value);
 const handleChanged = (newContent) => props.textRecord.dirty(newContent);
 
 const hasLink = computed(() => !props.textRecord.fileHandle.value);

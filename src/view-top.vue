@@ -52,13 +52,13 @@ const emit = defineEmits(["new", "open", "save-as", "save", "search"]);
           :shortcut="(e) => e.key === 'd' && (e.ctrlKey || e.metaKey)"
           @action="emit('save-as')"
         />
-        <!-- <ActionButton
+        <ActionButton
           id="search"
           label="search"
           icon="search"
           :shortcut="(e) => e.key === 'f' && (e.ctrlKey || e.metaKey)"
           @action="emit('search')"
-        /> -->
+        />
       </div>
     </template>
   </BaseBar>

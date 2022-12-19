@@ -6,9 +6,13 @@ The content is in your disk in a universal open format, and the browser ensures 
 
 You can start authoring by accessing the [app](https://textorama.online/) and clicking **new** or **open** in the top bar.
 
+By the way, all those top bar buttons are tied to keyboard shortcuts: "new" is "alt + n", "open" with "ctrl + o", and "search" through "ctrl + f".
+
+Depending on your browser support, you will see buttons "save" that goes by "ctrl + s" and "save as" with "ctrl + d". Other users will see "download" that also works with "ctrl + d".
+
 # Local Files
 
-Suppose you are on a computer using Chrome, Edge, and Opera. In that case, you will have an experience similar to desktop apps with the ability to save to the same file continuously.
+Suppose you are on a computer using Chrome, Edge, or Opera. In that case, you will have an experience similar to desktop apps with the ability to save to the same file continuously.
 
 Better still, on those platforms, the browser lets you install Textorama on your local machine. After that, you can open files directly from your system file explorer.
 
@@ -20,7 +24,6 @@ Many of Textorama's features come from the fantastic [Codemirror](https://codemi
 
 - A set of keyboard shortcuts found in [this list](https://codemirror.net/docs/ref/#commands.defaultKeymap).
 - Select and edit at multiple locations by holding CTRL and clicking the positions you want to add new cursors.
-- By the way, all those top bar buttons are tied to keyboard shortcuts: "new" is "alt + n", "open" with "ctrl + o", and "save" goes by "ctrl + s". The last one will be "save as" or "download", depending on your browser support. Both work through "ctrl + d".
 - Support for the markdown syntax. It is still portable plain text but visually enriched. You can read more about it [here](https://www.markdownguide.org/).
 
 # Open Source
