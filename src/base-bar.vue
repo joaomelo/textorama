@@ -27,7 +27,7 @@
   display: none;
 }
 
-@media (min-width: 480px) {
+@media (min-width: 640px) {
   .content {
     justify-content: space-between;
   }

@@ -1,5 +1,6 @@
 <script setup>
-import { useShortcut } from "./action-shortcut";
+import { useWidth } from "./use-width";
+import { useShortcut } from "./use-shortcut";
 
 const props = defineProps({
   id: {
@@ -30,6 +31,8 @@ useShortcut({
   is: props.shortcut,
   on: () => emit("action"),
 });
+
+const width = useWidth();
 </script>
 
 <template>
@@ -41,6 +44,6 @@ useShortcut({
     class="button"
     @click="emit('action')"
   >
-    {{ props.label }}
+    {{ width > 480 ? props.label : "" }}
   </va-button>
 </template>
