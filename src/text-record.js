@@ -9,8 +9,6 @@ import {
 
 export class TextRecord {
   constructor() {
-    this.canLink = canLink;
-
     this.fileHandle = ref(null);
     this.fileName = computed(() => {
       if (!this.fileHandle.value) return null;
@@ -21,14 +19,13 @@ export class TextRecord {
     this.content = ref(null);
   }
 
-  async newAs() {
-    const content = "";
-    if (canLink) {
-      const { success, handle } = await newTextFile(content);
-      if (!success) return;
-      this.fileHandle.value = handle;
-    }
-    this.clean(content);
+  get canLink() {
+    return canLink;
+  }
+
+  async new() {
+    this.fileHandle.value = null;
+    this.dirty("");
   }
 
   async saveAs() {

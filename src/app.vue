@@ -20,7 +20,7 @@ watch(props.textRecord.status, (status) => {
   window.onbeforeunload = status === "clean" ? null : unload;
 });
 
-const handleNew = () => props.textRecord.newAs();
+const handleNew = () => props.textRecord.new();
 const handleOpen = () => props.textRecord.openAs();
 const handleSaveAs = () => props.textRecord.saveAs();
 const handleSave = () => props.textRecord.save();
