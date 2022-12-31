@@ -43,7 +43,6 @@ jobs:
     env:
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       FIREBASE_PROJECT: ${{ secrets.FIREBASE_PROJECT }}
-      VITE_SENTRY_DSN: ${{ secrets.VITE_SENTRY_DSN }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -54,29 +53,3 @@ jobs:
       - run: npm i -f
       - run: npx firebase use --add $FIREBASE_PROJECT
       - run: npm run deploy
-      - uses: actions/upload-artifact@master
-        with:
-          name: dist
-          path: dist
-
-  sentry:
-    needs: [bump, deploy]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@master
-        with:
-          name: dist
-          path: dist
-      - name: create sentry release
-        uses: getsentry/action-release@v1
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
-        with:
-          environment: production
-          version: ${{ needs.bump.outputs.version }}
-          sourcemaps: dist
-          ignore_missing: true
-          ignore_empty: true

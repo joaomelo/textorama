@@ -1,6 +1,3 @@
-import * as Sentry from "@sentry/vue";
-import { BrowserTracing } from "@sentry/tracing";
-
 import { createApp } from "vue";
 import { createVuesticEssential, VaButton } from "vuestic-ui";
 import "vuestic-ui/styles/essential.css";
@@ -27,31 +24,12 @@ export async function initApp(elementId) {
     textRecord,
   });
 
-  initSentry({ app, version });
-
   const vuestic = createVuesticEssential({
     components: { VaButton },
   });
   app.use(vuestic);
 
   app.mount(elementId);
-}
-
-function initSentry({ app, version }) {
-  if (import.meta.env.VITE_SENTRY_DSN) {
-    Sentry.init({
-      app,
-      release: version,
-      environment: import.meta.env.MODE,
-      dsn: import.meta.env.VITE_SENTRY_DSN,
-      integrations: [
-        new BrowserTracing({
-          tracePropagationTargets: ["localhost", "textorama.online", /^\//],
-        }),
-      ],
-      tracesSampleRate: 0.2,
-    });
-  }
 }
 
 function wasFileLaunched() {
