@@ -2,7 +2,7 @@
 import { watch, computed, ref } from "vue";
 import ViewTop from "./view-top.vue";
 import ViewBottom from "./view-bottom.vue";
-import ViewEditor from "./view-editor.vue";
+import ViewDashboard from "./view-dashboard.vue";
 
 const props = defineProps({
   version: {
@@ -45,7 +45,7 @@ const hasLink = computed(() => !props.textRecord.fileHandle.value);
       />
     </header>
     <main>
-      <ViewEditor
+      <ViewDashboard
         :show-search="showSearch"
         :content="props.textRecord.content.value"
         @changed="handleChanged"
@@ -65,9 +65,8 @@ const hasLink = computed(() => !props.textRecord.fileHandle.value);
 .app {
   position: relative;
   height: 100vh;
-  --header-size: 64px;
+  --header-size: 50px;
   --footer-size: 16px;
-  --max-width: 1024px;
 }
 
 header,

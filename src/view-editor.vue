@@ -102,15 +102,16 @@ watch(
 </template>
 <style scoped>
 .parent {
-  max-width: var(--max-width);
   max-height: 100%;
   min-height: 100%;
   display: flex;
   justify-content: center;
   align-items: stretch;
-  margin: auto;
 }
 .parent :deep(.cm-editor) {
   flex-grow: 1;
+}
+.parent :deep(.cm-focused) {
+  outline: none;
 }
 </style>
