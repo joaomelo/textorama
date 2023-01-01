@@ -4,7 +4,7 @@ Textorama is a web editor that works with plain text files in your local system.
 
 The content is in your disk in a universal open format, and the browser ensures the editor only accesses the files you permit. There is no need for security measures like sign-in. Your data is inherently portable and organized the way you want.
 
-You can start authoring by accessing the [app](https://textorama.online/) and clicking **new** or **open** in the top bar.
+You can start authoring by accessing the [app](https://textorama.melo.plus) and clicking **new** or **open** in the top bar.
 
 # Main Shortcuts
 
@@ -35,3 +35,5 @@ Another nicety is the ability to resize the editor on large screens. You can do 
 This project is open source. You are welcome to run, copy, distribute and study the software available at its [GitHub repository](https://github.com/joaomelo/textorama).
 
 Regarding contributions, I have a daytime job and a wonderful family to assist. So I code in the gaps presented late nights and weekends. To manage that scarcity and my mental health, I decided to keep the project closed to contributions for now.
+
+Nevertheless, you can always open issues towards the project in the code repository, and my [personal site](http://joao.melo.plus) has my social profiles if you want to contact me.
