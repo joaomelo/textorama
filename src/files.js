@@ -1,9 +1,4 @@
-import {
-  supported,
-  fileSave,
-  fileOpen,
-  directoryOpen,
-} from "browser-fs-access";
+import { supported, fileSave, fileOpen } from "browser-fs-access";
 
 const mimeType = "text/plain";
 const options = {
@@ -55,22 +50,6 @@ export async function openThisTextFile(maybeHandle) {
     const file = await maybeHandle.getFile();
     const content = await file.text();
     return { success: true, content };
-  } catch {
-    return { success: false };
-  }
-}
-
-export async function openDirectory() {
-  try {
-    if (!canLink) throw new Error("Cannot link to files");
-
-    const allHandle = await directoryOpen({ recursive: true });
-    const textHandles = allHandle.filter((h) => h.type === mimeType);
-    textHandles.forEach((h) => {
-      h.path = h.webkitRelativePath;
-    });
-
-    return { success: true, handles: textHandles };
   } catch {
     return { success: false };
   }
