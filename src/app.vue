@@ -3,6 +3,7 @@ import { watch, computed, ref } from "vue";
 import ViewTop from "./view-top.vue";
 import ViewBottom from "./view-bottom.vue";
 import ViewDashboard from "./view-dashboard.vue";
+import { openDirectory } from "./files";
 
 const props = defineProps({
   version: {
@@ -29,6 +30,14 @@ const showSearch = ref(false);
 const handleSearch = () => (showSearch.value = !showSearch.value);
 const handleChanged = (newContent) => props.textRecord.dirty(newContent);
 
+const handles = ref(null);
+const handleDirectory = async () => {
+  const payload = await openDirectory();
+  if (payload.success) {
+    handles.value = payload.handles;
+  }
+};
+
 const hasLink = computed(() => !props.textRecord.fileHandle.value);
 </script>
 <template>
@@ -39,6 +48,7 @@ const hasLink = computed(() => !props.textRecord.fileHandle.value);
         :has-link="hasLink"
         @new="handleNew"
         @open="handleOpen"
+        @directory="handleDirectory"
         @save-as="handleSaveAs"
         @save="handleSave"
         @search="handleSearch"
@@ -48,6 +58,7 @@ const hasLink = computed(() => !props.textRecord.fileHandle.value);
       <ViewDashboard
         :show-search="showSearch"
         :content="props.textRecord.content.value"
+        :handles="handles"
         @changed="handleChanged"
       />
     </main>

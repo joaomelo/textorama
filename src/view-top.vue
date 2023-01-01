@@ -12,7 +12,16 @@ const props = defineProps({
     default: false,
   },
 });
-const emit = defineEmits(["new", "open", "save-as", "save", "search"]);
+const emit = defineEmits([
+  "new",
+  "open",
+  "directory",
+  "save-as",
+  "save",
+  "search",
+]);
+
+const isDev = import.meta.env.DEV;
 </script>
 
 <template>
@@ -35,6 +44,14 @@ const emit = defineEmits(["new", "open", "save-as", "save", "search"]);
           icon="file_open"
           :shortcut="(e) => e.key === 'o' && (e.ctrlKey || e.metaKey)"
           @action="emit('open')"
+        />
+        <ActionButton
+          v-if="props.canLink && isDev"
+          id="directory"
+          label="directory"
+          icon="folder_open"
+          :shortcut="(e) => e.key === 'r' && (e.ctrlKey || e.metaKey)"
+          @action="emit('directory')"
         />
         <ActionButton
           v-if="props.canLink"

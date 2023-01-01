@@ -28,10 +28,12 @@ export function useResize({ split, target, inverted = false }) {
   };
 
   onMounted(() => {
+    if (!split?.value) return;
     add(split.value, "mousedown", handleMouseDown);
     add(split.value, "dblclick", handleDoubleClick);
   });
   onUnmounted(() => {
+    if (!split?.value) return;
     remove(split.value, "mousedown", handleMouseDown);
     remove(split.value, "dblclick", handleDoubleClick);
   });
