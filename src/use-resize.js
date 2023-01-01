@@ -23,8 +23,18 @@ export function useResize({ split, target, inverted = false }) {
     document.addEventListener("mouseup", handleMouseStop);
   };
 
-  onMounted(() => add(split.value, "mousedown", handleMouseDown));
-  onUnmounted(() => remove(split.value, "mousedown", handleMouseDown));
+  const handleDoubleClick = (e) => {
+    target.value.style.width = 0;
+  };
+
+  onMounted(() => {
+    add(split.value, "mousedown", handleMouseDown);
+    add(split.value, "dblclick", handleDoubleClick);
+  });
+  onUnmounted(() => {
+    remove(split.value, "mousedown", handleMouseDown);
+    remove(split.value, "dblclick", handleDoubleClick);
+  });
 }
 
 function add(el, e, handle) {
