@@ -1,6 +1,6 @@
 {
   "name": "textorama",
-  "version": "0.20.2",
+  "version": "1.0.0",
   "main": "src/index.html",
   "scripts": {
     "start": "vite",
